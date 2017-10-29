@@ -1,0 +1,45 @@
+README Zhengting Zou 2015/10/12
+
+This directory include 5 child directories:
+
+01_NodeSeq/ 02_Trees/ 03_rate/ 04_siteFreq/ 05_convCal/
+
+Content of each directory:
+
+01_NodeSeq/: Each file is the amino acid sequences for ALL nodes in the tree for the gene. For example, file ENSG00000000005.nodes stores the amino acid sequences of gene ENSG00000000005 at each node in the tree - Ailuropoda, Bos, node20, etc. Following the name of each node (no whitespace) is the sequence in a single line. This is modified from output file "rst" of PAML.
+
+02_Trees/: Each file is the Newick-format tree with branch lengths inferred using the gene. For example, file ENSG00000000005.ntree stores a tree with names of all nodes and branch lengths inferred using ENSG00000000005 sequences. This is modified from output file "rst" of PAML.
+
+03_rate/: Each file is the relative evolutionary rates of all sites within the gene, following the Gamma distribution of site-wise rate variation. For example, file ENSG00000000005.rat stores 258 relative rates, one each row and for one amino acid site in the gene. This is modified from output file "rates" of PAML.
+
+04_siteFreq/: Each file contains the frequency of all amino acid in each site of the gene. For example, file ENSG00000000005.freq is a 258x20 matrix, and each row is a length-20 vector summing up to 1, representing the observed frequency of 20 amino acids at this site of the gene ENSG00000000005.
+
+05_convCal/: This directory contains the Python script probCal.py for counting convergence events and calculating convergence probability for each branch pair. Other files:
+
+testGeneList: list of genes that taken in by the script for calculation
+
+jtt.freq: equilibrium frequency of the original JTT matrix
+
+JTT.mat: the origianl JTT matrix
+
+pseudoroot_mam_tree.txt: a Newick-format species tree file, containing a single species tree with names of all nodes and all branch lengths. This tree must have the same topology, node names as all trees in "02_Trees/", because this method assumes a single species tree.
+
+The scripts has been tested with Python 2.6.6 in Red Hat Linux system using the example of ten genes listed in testGeneList with the command:
+
+$ ./probCal.py testGeneList2 test
+
+$ ./probCalP.py testGeneList2 testp
+
+Dependent non-standard Python package: ete2, numpy
+
+Output of probCal.py:
+
+[prefix]_results.rec
+
+Each row is for one gene and one pair of branches (represented by the younger nodes) as the first two columns. The next two columns are number of observed convergence events and expected number of convergence events.
+
+[prefix]_pairwise_res.txt
+
+Each row is for a pair of branches (represented by the younger nodes) as the first column. The next three columns are number of observed convergence events, expected number of convergence events, the phylogenetic distance between two younger nodes of the branch pair (retrieved from a species tree file derived elsewhere). This file sums the convergence metrics up across all genes.
+
+Output of probCal.py reports counts and expectations of convergent + parallel changes, while probCalP.py reports only parallel. Counts and expectations of strict convergent changes can be derived by taking subtractions.
