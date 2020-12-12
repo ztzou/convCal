@@ -1,5 +1,7 @@
 README Zhengting Zou 2015/10/12
 
+*** This pipeline has been replaced by https://github.com/ztzou/conv_cal (2020-12-12)***
+
 This directory include 5 child directories:
 
 01_NodeSeq/ 02_Trees/ 03_rate/ 04_siteFreq/ 05_convCal/
